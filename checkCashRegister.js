@@ -10,14 +10,13 @@ function checkCashRegister(price, cash, cid) {
         "TWENTY": 20,
         "ONE HUNDRED": 100
       }
-      cid.reverse()
       let cashTotal = cid.reduce((sum, subArray) => sum + subArray[1], 0)
       let amountOwed = cash - price;
       let change = [];
-      let regStatus;
       if (amountOwed === cashTotal) {
-        regStatus = "CLOSED"
+        return {status: "CLOSED", change: cid}
       }
+      cid.reverse()
       cid.forEach(tender => {
         if (amountOwed / currVal[tender[0]] > 1) {
           let subtracted = Math.floor(amountOwed / currVal[tender[0]]) * currVal[tender[0]]
@@ -32,12 +31,8 @@ function checkCashRegister(price, cash, cid) {
       })
       if(amountOwed > 0) {
         return { status: "INSUFFICIENT_FUNDS", change: [] }
-      } if (regStatus === "CLOSED") {
-        cid.reverse()
-        return {status: regStatus, change: cid}
       }
-      regStatus = "OPEN"
-      return { status: regStatus, change };
+      return { status: "OPEN", change };
 }
 console.log(
   checkCashRegister(19.5, 20, [
