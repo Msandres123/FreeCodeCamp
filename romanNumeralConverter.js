@@ -5,8 +5,7 @@ function convertToRoman(num) {
         let ratio = num/subArr[1] 
         if(ratio >= 1) {
         str += subArr[0].repeat(Math.floor(ratio))
-        let subtracted = Math.floor(ratio) * subArr[1]
-        num = num - subtracted
+        num-=Math.floor(ratio) * subArr[1]
         }
     })
      return str;
